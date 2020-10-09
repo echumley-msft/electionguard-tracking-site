@@ -11,11 +11,22 @@ jobs:
       uses: actions/checkout@master
     - name: NPM Build Storybook
       run: npm install && npm run build-storybook
-
-
-    - name: Azure Static Deploy
-      uses: tibor19/static-website-deploy@v1
+    - name: Azure Login
+      uses: azure/login@v1
       with:
-        enabled-static-website: 'true'
-        folder: 'storybook-static'
-        connection-string: ${{ secrets.STORAGE_CONNECTION_STRING }}
+      creds: ${{ secrets.STORYBOOK_AZURE_DEPLOY_CREDENTIALS }}
+    - name: Upload to blob static site storage
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |
+            az storage blob upload-batch --account-name ${{ secrets.STORYBOOK_STORAGE_ACCOUNT_NAME }} -d '$web' -s storybook-static
+
+
+
+#    - name: Azure Static Deploy
+#      uses: tibor19/static-website-deploy@v1
+#      with:
+#        enabled-static-website: 'true'
+#        folder: 'storybook-static'
+#        connection-string: ${{ secrets.STORYBOOK_STORAGE_CONNECTION_STRING }}
