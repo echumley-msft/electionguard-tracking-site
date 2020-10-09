@@ -10,7 +10,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
     - name: NPM Build Storybook
-      run: npm install && npm run build-storybook
-    - name: Yarn Build Storybook
-      run: yarn build-storybook
-    
+      run: npm install && npm run build-storybook - /static-site-export
+    - name: List export
+      run: ls /static-site-export
+
+    - name: Azure Static Deploy
+      uses: tibor19/static-website-deploy@v1
+      with:
+        enabled-static-website: 'true'
+        folder: 'static-site-export'
+        connection-string: ${{ secrets.STORAGE_CONNECTION_STRING }}
