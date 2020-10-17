@@ -28,6 +28,7 @@ jobs:
     - name: Build
       run: |
         npm install -g yarn
+        yarn install
         yarn build-storybook
         # npm install
         # npm run build-storybook
