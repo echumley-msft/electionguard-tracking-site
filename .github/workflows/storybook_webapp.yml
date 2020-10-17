@@ -22,9 +22,7 @@ jobs:
       run: |
         npm install
         npm run build-storybook
-        # yarn install
-        # yarn build-storybook
-      working-directory: storybook-static
+
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with: 
